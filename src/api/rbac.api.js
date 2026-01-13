@@ -1,4 +1,3 @@
-
 import axios from "./axios";
 
 export const getRoles = () => {
@@ -12,25 +11,23 @@ export const createRole = ({ name, permissionIds }) => {
     });
 };
 
-
 export const getPermissions = () => {
     return axios.get("/rbac/permissions");
 };
 
 export const sendInvite = ({ email, roleId }) => {
-    return axios.post("api/invitations/send", {
+    return axios.post("/api/invitations/send", { 
         email,
         role_id: roleId,
     });
 };
 
 export const updateRole = ({ userId, roleId }) => {
-  return axios.put(`/rbac/users/${userId}/role`, {
-    role_id: roleId,
-  });
+    return axios.put(`/rbac/users/${userId}/role`, {
+        role_id: roleId,
+    });
 };
 
-
-export const allUsers=()=>{
-    return axios.get("/users")
-}
+export const allUsers = () => {
+    return axios.get("/users");
+};

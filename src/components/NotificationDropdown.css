@@ -1,0 +1,154 @@
+/* src/components/notification.css */
+.notification-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.notification-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  height: 16px;
+  width: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+/* Dropdown Card */
+.notification-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 12px;
+  width: 320px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  overflow: hidden;
+}
+
+.notif-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  background: #f9fafb;
+}
+
+.notif-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.notif-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.notif-empty {
+  padding: 24px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* Item */
+.notif-item {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.2s;
+}
+
+.notif-item:hover {
+  background: #f9fafb;
+}
+
+.notif-item.unread {
+  background: #eff6ff;
+}
+
+.notif-icon-bg {
+  height: 32px;
+  width: 32px;
+  background: #e0e7ff;
+  color: #4f46e5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notif-content {
+  flex: 1;
+}
+
+.notif-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 2px 0;
+}
+
+.notif-message {
+  font-size: 13px;
+  color: #4b5563;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.notif-time {
+  font-size: 11px;
+  color: #9ca3af;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Buttons */
+.notif-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-accept {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #111827;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-accept:hover {
+  background: #000;
+}

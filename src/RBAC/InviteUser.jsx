@@ -7,26 +7,28 @@ function InviteUser() {
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   useEffect(() => {
     async function fetchRoles() {
       try {
         const res = await getRoles();
-        setRoles(res.data.data || []);
+        const allRoles = res.data.data || [];
+        setRoles(allRoles.filter(r => r.name !== "Owner"));
       } catch {
         setError("Failed to load roles");
       }
     }
-
     fetchRoles();
   }, []);
 
   async function handleInvite(e) {
     e.preventDefault();
     setError("");
+    setSuccess("");
 
     if (!email || !roleId) {
-      setError("Email and role are required");
+      setError("Please fill in all fields.");
       return;
     }
 
@@ -35,9 +37,10 @@ function InviteUser() {
       await sendInvite({ email, roleId });
       setEmail("");
       setRoleId("");
-      alert("Invitation sent");
-    } catch {
-      setError("Failed to send invitation");
+      setSuccess("Invitation sent to " + email);
+      setTimeout(() => setSuccess(""), 4000);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to send invitation");
     } finally {
       setLoading(false);
     }
@@ -45,37 +48,36 @@ function InviteUser() {
 
   return (
     <div className="invite-card">
-      <h3 className="invite-title">Invite User</h3>
+      <h3 className="invite-title">Invite New Member</h3>
       <p className="invite-subtitle">
-        Invite a user to your workspace and assign a role.
+        Send an email invitation to add a new member to your workspace.
       </p>
 
-      <form className="invite-form" onSubmit={handleInvite}>
+      <form onSubmit={handleInvite}>
         <div className="form-group">
-          <label>Email</label>
+          <label>Email Address</label>
           <input
             type="email"
-            placeholder="user@example.com"
+            placeholder="colleague@company.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
         <div className="form-group">
-          <label>Role</label>
+          <label>Assign Role</label>
           <select value={roleId} onChange={(e) => setRoleId(e.target.value)}>
-            <option value="">Select role</option>
-            {roles
-              .filter((role) => role && role.id)
-              .map((role) => (
-                <option key={role.id} value={role.id}>
-                  {role.name}
-                </option>
-              ))}
+            <option value="">Select a role...</option>
+            {roles.map((role) => (
+              <option key={role.id} value={role.id}>
+                {role.name}
+              </option>
+            ))}
           </select>
         </div>
 
-        {error && <p className="form-error">{error}</p>}
+        {error && <div className="form-error">{error}</div>}
+        {success && <div className="form-success">{success}</div>}
 
         <button type="submit" className="invite-btn" disabled={loading}>
           {loading ? "Sending..." : "Send Invitation"}

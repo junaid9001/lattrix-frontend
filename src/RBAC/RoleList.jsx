@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getRoles } from "../api/rbac.api";
 
-function RolesList({ onSelect }) {
+function RolesList() {
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -9,7 +9,10 @@ function RolesList({ onSelect }) {
     async function fetchRoles() {
       try {
         const res = await getRoles();
-        setRoles(res.data.data || []);
+        const allRoles = res.data.data || [];
+        setRoles(allRoles.filter(r => r.name !== "Owner"));
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -17,22 +20,22 @@ function RolesList({ onSelect }) {
     fetchRoles();
   }, []);
 
-  if (loading) return <p className="muted-text">Loading roles...</p>;
-
-  if (roles.length === 0) {
-    return <p className="muted-text">No roles created yet.</p>;
-  }
+  if (loading) return <div style={{padding: '20px', fontSize: '13px', color: '#9ca3af'}}>Loading...</div>;
 
   return (
-    <div className="roles-list">
-      {roles
-        .filter((role) => role && role.id && role.name)
-        .map((role) => (
-          <div key={role.id} className="role-item">
+    <ul className="roles-list">
+      {roles.length === 0 ? (
+        <li style={{padding: '20px', fontSize: '13px', textAlign: 'center', color: '#9ca3af'}}>
+          No custom roles.
+        </li>
+      ) : (
+        roles.map((role) => (
+          <li key={role.id} className="role-item">
             {role.name}
-          </div>
-        ))}
-    </div>
+          </li>
+        ))
+      )}
+    </ul>
   );
 }
 

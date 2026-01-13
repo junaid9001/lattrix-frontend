@@ -12,7 +12,8 @@ export function AuthProvider({ children }) {
       .then((res) => {
         setUser(res.data.data);
       })
-      .catch(() => {
+      .catch((err) => {
+        // console.error("Auth check failed:", err);
         setUser(null);
       })
       .finally(() => {
@@ -23,7 +24,7 @@ export function AuthProvider({ children }) {
   const role = user?.role;
   const permissions = user?.permissions || [];
 
-  const isSuperAdmin = role === "superadmin";
+  const isSuperAdmin = role === "superadmin" || permissions.includes("role:superadmin");
 
   const hasPermission = (permission) => {
     if (isSuperAdmin) return true;

@@ -7,18 +7,23 @@ import PromoteDemote from "../RBAC/PromoteDemote";
 
 function RBAC() {
   const [activeTab, setActiveTab] = useState("invite");
+  const [refreshKey, setRefreshKey] = useState(0); // Used to trigger re-fetches
+
+  // Callback when a role is created
+  const handleRoleCreated = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
 
   return (
     <div className="rbac-page">
-      {/* Header */}
       <header className="rbac-header">
-        <h1 className="rbac-title">RBAC</h1>
+        <h1 className="rbac-title">RBAC Management</h1>
         <p className="rbac-subtitle">
           Manage roles, permissions, and workspace access
         </p>
       </header>
 
-      {/* Tab Navigation */}
+      {/* Tabs */}
       <nav className="rbac-tabs">
         <button
           className={`rbac-tab ${activeTab === "invite" ? "active" : ""}`}
@@ -42,7 +47,7 @@ function RBAC() {
         </button>
       </nav>
 
-      {/* Content Area */}
+      {/* Content */}
       <section className="rbac-content">
         {activeTab === "invite" && (
           <div className="rbac-section">
@@ -54,21 +59,22 @@ function RBAC() {
           <div className="rbac-roles-layout">
             <div className="rbac-left">
               <h4>Existing Roles</h4>
-              <RolesList />
+              {/* key prop forces component to remount/refetch when refreshKey changes */}
+              <RolesList key={refreshKey} />
             </div>
 
             <div className="rbac-right">
-              <RoleCreator />
+              {/* Pass callback to child */}
+              <RoleCreator onCreated={handleRoleCreated} />
             </div>
           </div>
         )}
 
-    {activeTab === "assign" && (
-  <div className="rbac-section">
-    <PromoteDemote />
-  </div>
-)}
-
+        {activeTab === "assign" && (
+          <div className="rbac-section">
+            <PromoteDemote />
+          </div>
+        )}
       </section>
     </div>
   );

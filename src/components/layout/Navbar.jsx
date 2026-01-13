@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../api/auth.api";
 import { AuthContext } from "../../context/AuthContext";
+import NotificationDropdown from "../NotificationDropdown"; // Import here
 
 function Navbar() {
   const navigate = useNavigate();
@@ -24,7 +25,11 @@ function Navbar() {
       </div>
 
       {user && (
-        <div className="navbar-right">
+        <div className="navbar-right" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          
+          {/* Add Notification Dropdown Here */}
+          <NotificationDropdown />
+
           <button
             className="navbar-logout"
             onClick={handleLogout}

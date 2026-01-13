@@ -1,22 +1,55 @@
-import Navbar from "./Navbar";
+import { useContext } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import "./navbar.css"
+import Navbar from "./Navbar";
+import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
+import "./navbar.css";
 
 function DashboardLayout() {
+  // Get permission helpers from context
+  const { hasPermission, isSuperAdmin } = useContext(AuthContext);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar />
 
       <div style={{ display: "flex", flex: 1 }}>
-
-        <aside style={{ width: "220px", borderRight: "1px solid #ddd", padding: "16px" }}>
+        <aside
+          style={{
+            width: "220px",
+            borderRight: "1px solid #ddd",
+            padding: "16px",
+          }}
+        >
           <nav style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <NavLink to="/dashboard">Dashboard</NavLink>
-            <NavLink to="/dashboard/api-groups">API Groups</NavLink>
-            <NavLink to="/dashboard/rbac">RBAC</NavLink>
+            {/* Always visible */}
+            <NavLink 
+              to="/dashboard"
+              className={({ isActive }) => (isActive ? "active-link" : "")} 
+            >
+              Dashboard
+            </NavLink>
+
+            {/* Hidden if user cannot create/manage API groups */}
+            {hasPermission("api-group:create") && (
+              <NavLink 
+                to="/dashboard/api-groups"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                API Groups
+              </NavLink>
+            )}
+
+            {/* Hidden if user is not Super Admin */}
+            {isSuperAdmin && (
+              <NavLink 
+                to="/dashboard/rbac"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                RBAC
+              </NavLink>
+            )}
           </nav>
         </aside>
-
 
         <main style={{ flex: 1, padding: "16px" }}>
           <Outlet />
