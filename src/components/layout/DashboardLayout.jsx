@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
-import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
+import { AuthContext } from "../../context/AuthContext";
 import "./navbar.css";
 
 function DashboardLayout() {
@@ -30,7 +30,7 @@ function DashboardLayout() {
             </NavLink>
 
             {/* Hidden if user cannot create/manage API groups */}
-            {hasPermission("api-group:create") && (
+            {(hasPermission("api-group:create") || hasPermission("api-group:read")) && (
               <NavLink 
                 to="/dashboard/api-groups"
                 className={({ isActive }) => (isActive ? "active-link" : "")}

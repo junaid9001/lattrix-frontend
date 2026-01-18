@@ -53,7 +53,7 @@ function PromoteDemote() {
         )
       );
     } catch (err) {
-      alert("Failed to update role");
+      alert("Failed to update role",err);
     } finally {
       setUpdating(null);
     }

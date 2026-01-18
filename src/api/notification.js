@@ -1,4 +1,4 @@
-// src/api/notification.js
+
 import axios from "./axios";
 
 export function getMyNotifications() {

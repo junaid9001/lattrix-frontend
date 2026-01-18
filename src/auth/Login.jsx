@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../api/auth.api";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { selectWorkspace } from "../api/auth.api";
 import "./auth.css";
 
 function Login() {
@@ -8,24 +11,37 @@ function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { checkAuth } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    setError("");
-    setIsLoading(true);
+e.preventDefault();
+  setError("");
+  setIsLoading(true);
 
-    try {
-      await login(form);
+  try {
+    const res = await login(form);
+    const workspaces = res.data.workspaces || [];
+
+    if (workspaces.length === 0) {
+      setError("No workspaces found. Please contact support.");
+    } else if (workspaces.length === 1) {
+      // Auto-select if only one
+      await selectWorkspace(workspaces[0].workspace_id);
+      await checkAuth();
       navigate("/dashboard");
-    } catch (err) {
-      setError(err.message || "Invalid credentials. Please try again.");
-    } finally {
-      setIsLoading(false);
+    } else {
+      // Navigate to selection screen
+      navigate("/select-workspace", { state: { workspaces } });
     }
+  } catch (err) {
+    setError(err.message || "Invalid credentials.");
+  } finally {
+    setIsLoading(false);
+  }
   }
 
   return (
@@ -53,7 +69,6 @@ function Login() {
           <div className="input-group">
             <div className="label-row">
               <label htmlFor="password">Password</label>
-              
             </div>
             <input
               id="password"

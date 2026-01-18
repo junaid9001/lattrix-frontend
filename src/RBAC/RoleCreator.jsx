@@ -42,7 +42,7 @@ function RoleCreator({ onCreated }) {
       setSelected([]);
       if (onCreated) onCreated();
     } catch (err) {
-      setError("Failed to create role.");
+      setError("Failed to create role.",err);
     } finally {
       setLoading(false);
     }
