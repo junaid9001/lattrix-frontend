@@ -1,0 +1,7 @@
+@font-face {
+  font-family: 'BrandFont';
+
+  src: url('/fonts/Nebula-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

@@ -13,3 +13,9 @@ export function acceptInvitation(token) {
     return axios.post("/api/invitations/accept", { token });
 }
 
+//workspace
+export const getWorkspaceNotifications = () => axios.get("/api/workspace/notifications");
+
+export const deleteWorkspaceNotification = (id) =>
+    axios.delete(`/api/workspace/notifications/${id}`);
+

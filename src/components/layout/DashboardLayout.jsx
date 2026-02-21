@@ -1,57 +1,102 @@
+// src/components/layout/DashboardLayout.jsx
 import { useContext } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import { AuthContext } from "../../context/AuthContext";
-import "./navbar.css";
+import SidebarSwitcher from "../SidebarSwitcher"; // Import the switcher
+import "../../styles/layout.css";
+import "../../styles/fonts.css";
+import { Bell } from "lucide-react";
 
 function DashboardLayout() {
-  // Get permission helpers from context
   const { hasPermission, isSuperAdmin } = useContext(AuthContext);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <Navbar />
+    <div className="layout-shell">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        {/* 1. RESTORED LOGO (Top) */}
+        <div className="brand-section">
+          <span className="brand-text" style={{ fontFamily: "BrandFont, monospace",fontSize:"30px",color:"#ffffff" }}>Lattrix</span>
+        </div>
 
-      <div style={{ display: "flex", flex: 1 }}>
-        <aside
-          style={{
-            width: "220px",
-            borderRight: "1px solid #ddd",
-            padding: "16px",
-          }}
-        >
-          <nav style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            {/* Always visible */}
-            <NavLink 
-              to="/dashboard"
-              className={({ isActive }) => (isActive ? "active-link" : "")} 
+        {/* 2. WORKSPACE SWITCHER (Below Logo) */}
+        <div style={{ padding: "0 12px 24px 12px" }}>
+          <SidebarSwitcher />
+        </div>
+
+        {/* 3. Navigation Links */}
+        <nav style={{ display: "flex", flexDirection: "column" }}>
+          <span
+            style={{
+              fontSize: "11px",
+              color: "var(--text-muted)",
+              marginBottom: "12px",
+              textTransform: "uppercase",
+            }}
+          >
+            Menu
+          </span>
+
+          <NavLink
+            to="/dashboard"
+            end
+            className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          >
+            Overview
+          </NavLink>
+
+            {(hasPermission("api-group:create") ||
+            hasPermission("api-group:read")) && (
+            <NavLink
+              to="/dashboard/api-groups"
+              className={({ isActive }) =>
+                `nav-item ${isActive ? "active" : ""}`
+              }
             >
-              Dashboard
+              API Groups
             </NavLink>
+          )}
 
-            {/* Hidden if user cannot create/manage API groups */}
-            {(hasPermission("api-group:create") || hasPermission("api-group:read")) && (
-              <NavLink 
-                to="/dashboard/api-groups"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
+          <NavLink
+            to="/dashboard/notifications"
+            className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          >
+            Notifications
+          </NavLink>
+
+        
+
+          {isSuperAdmin && (
+            <>
+              <div style={{ height: "24px" }}></div>
+              <span
+                style={{
+                  fontSize: "11px",
+                  color: "var(--text-muted)",
+                  marginBottom: "12px",
+                  textTransform: "uppercase",
+                }}
               >
-                API Groups
-              </NavLink>
-            )}
-
-            {/* Hidden if user is not Super Admin */}
-            {isSuperAdmin && (
-              <NavLink 
+                System
+              </span>
+              <NavLink
                 to="/dashboard/rbac"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
+                className={({ isActive }) =>
+                  `nav-item ${isActive ? "active" : ""}`
+                }
               >
-                RBAC
+                Access Control
               </NavLink>
-            )}
-          </nav>
-        </aside>
+            </>
+          )}
+        </nav>
+      </aside>
 
-        <main style={{ flex: 1, padding: "16px" }}>
+      {/* Main Window */}
+      <div className="content-window">
+        <Navbar />
+        <main className="view-area">
           <Outlet />
         </main>
       </div>

@@ -1,0 +1,87 @@
+/* src/styles/layout.css */
+
+.layout-shell {
+  display: flex;
+  height: 100vh;
+  padding: 16px; /* Gap around the screen */
+  gap: 16px;
+  overflow: hidden;
+}
+
+/* --- The Floating Dock --- */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.brand-section {
+  padding-bottom: 32px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.brand-text {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* --- Navigation Links --- */
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 4px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  color: var(--text-primary);
+  background: var(--bg-panel);
+}
+
+.nav-item.active {
+  background: var(--bg-panel);
+  color: var(--accent-primary);
+  border-left: 2px solid var(--accent-primary); /* The "Amber" signal */
+}
+
+/* --- Main Content "Window" --- */
+.content-window {
+  flex: 1;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.top-bar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.view-area {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}

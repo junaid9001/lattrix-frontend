@@ -1,0 +1,357 @@
+/* src/styles/admin.css */
+
+:root {
+  --bg-app: #050505;
+  --bg-panel: rgba(255, 255, 255, 0.03);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --text-main: #ffffff;
+  --text-muted: #888888;
+  
+  --accent-purple: #a855f7;
+  --accent-green: #10b981;
+  --accent-red: #ef4444;
+  --accent-blue: #3b82f6;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+body {
+  background-color: var(--bg-app);
+}
+
+.admin-root {
+  min-height: 100vh;
+  padding: 40px 60px;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* --- HEADER --- */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.header-content {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.sys-indicator {
+  width: 10px;
+  height: 10px;
+  background: var(--accent-green);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--accent-green);
+  margin-top: 12px;
+}
+
+.admin-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0 0 4px 0;
+}
+
+.admin-header p.mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+.btn-refresh {
+  background: transparent;
+  border: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-refresh:hover {
+  border-color: var(--text-main);
+  color: var(--text-main);
+}
+
+/* --- TABS --- */
+.tabs-nav {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding-bottom: 12px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover { color: var(--text-main); }
+.tab-btn.active {
+  color: var(--text-main);
+  border-bottom-color: var(--accent-purple);
+}
+
+/* --- CARDS & PANELS --- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.glass-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-glass);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+}
+
+/* KPI Card Specifics */
+.kpi-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 160px; /* Taller for impact */
+}
+
+.kpi-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.kpi-value {
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.kpi-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Colors */
+.text-green { color: var(--accent-green); }
+.text-purple { color: var(--accent-purple); }
+.text-red { color: var(--accent-red); }
+.text-yellow { color: #f59e0b; }
+
+.border-top-green { border-top: 4px solid var(--accent-green); }
+.border-top-red { border-top: 4px solid var(--accent-red); }
+
+/* --- STRIPE FEED --- */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.panel-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.feed-item {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-glass);
+  align-items: center;
+  font-size: 13px;
+}
+
+.feed-type { color: var(--accent-purple); font-weight: 600; }
+.mono { font-family: var(--font-mono); }
+.feed-id { color: var(--text-muted); }
+.feed-date { color: var(--text-muted); text-align: right; }
+
+/* --- TABLE (Users) --- */
+.table-responsive { overflow-x: auto; }
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th {
+  text-align: left;
+  padding: 16px;
+  color: var(--text-muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.admin-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-glass);
+  vertical-align: middle;
+}
+.user-cell { display: flex; flex-direction: column; }
+.user-name { font-weight: 500; font-size: 14px; }
+.user-email { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+/* Badges */
+.badge {
+  padding: 6px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+.badge-agency {
+  background: rgba(168, 85, 247, 0.1);
+  color: var(--accent-purple);
+  border-color: var(--accent-purple);
+}
+.badge-pro {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+.badge-free {
+  background: rgba(255,255,255,0.05);
+  color: var(--text-muted);
+  border-color: var(--border-glass);
+}
+
+/* --- SYSTEM TELEMETRY --- */
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.telemetry-box {
+  background: rgba(0,0,0,0.2);
+  padding: 20px;
+  border: 1px solid var(--border-glass);
+}
+.telemetry-box .label {
+  display: block;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.telemetry-box .value {
+  font-size: 24px;
+}
+
+/* --- ANIMATIONS & SKELETONS --- */
+.skeleton-pulse {
+  background: rgba(255,255,255,0.05);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+.skeleton-text { height: 40px; width: 60%; }
+.skeleton-row { height: 50px; margin-bottom: 12px; width: 100%; background: rgba(255,255,255,0.03); }
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+.spinner-sm {
+  width: 16px; height: 16px;
+  border: 2px solid var(--border-glass);
+  border-top-color: var(--accent-purple);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .admin-root { padding: 20px; }
+}
+
+/* src/styles/admin.css */
+
+/* --- 1. PLAN BADGES (Fixes Agency/Pro colors) --- */
+.badge {
+  padding: 6px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  border: 1px solid transparent;
+}
+
+.badge-agency {
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7; /* Purple */
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.badge-pro {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6; /* Blue */
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.badge-free {
+  background: rgba(255, 255, 255, 0.05);
+  color: #888; /* Gray */
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- 2. ACTION BUTTONS (Fixes missing Ban/Unban button) --- */
+.btn-action {
+  font-family: var(--font-mono); 
+  font-size: 10px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  outline: none;
+}
+
+/* Red Ban Button */
+.btn-ban {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+.btn-ban:hover {
+  background: #ef4444;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Green Unban Button */
+.btn-unban {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.2);
+}
+.btn-unban:hover {
+  background: #10b981;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}

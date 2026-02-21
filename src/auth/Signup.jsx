@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { signup } from "../api/auth.api";
-import "./auth.css";
+import toast from "react-hot-toast"; // Import toast
+import "../styles/auth.css";
 
 function Signup() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -16,14 +16,20 @@ function Signup() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError("");
     setIsLoading(true);
 
     try {
+     
       await signup(form);
-      navigate("/login");
+      
+      toast.success("Account created! Please verify your email.");
+      
+      
+      navigate("/verify-otp", { state: { email: form.email } });
+      
     } catch (err) {
-      setError(err.message || "Check your details and try again.");
+      const msg = err.response?.data?.message || "Signup failed. Try again.";
+      toast.error(msg);
     } finally {
       setIsLoading(false);
     }
@@ -33,8 +39,8 @@ function Signup() {
     <div className="auth-page-wrapper">
       <div className="auth-card">
         <header className="auth-header">
-          <h1>Latrixx</h1>
-          <p>Start monitoring your APIs for free</p>
+          <h1>Create Account</h1>
+          <p>Start monitoring your APIs with Lattrix</p>
         </header>
 
         <form onSubmit={handleSubmit} className="auth-form">
@@ -77,14 +83,13 @@ function Signup() {
           </div>
 
           <button type="submit" disabled={isLoading} className="btn-primary">
-            {isLoading ? "Creating account..." : "Create Account"}
+            {isLoading ? "Creating..." : "Create Account"}
           </button>
         </form>
 
-        {error && <div className="auth-error">{error}</div>}
-
         <footer className="auth-footer">
-          Already have an account? <Link to="/login">Log in</Link>
+          <span>Already have an account? </span>
+          <Link to="/login">Sign in</Link>
         </footer>
       </div>
     </div>

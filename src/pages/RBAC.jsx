@@ -1,15 +1,16 @@
 import { useState } from "react";
 import InviteUser from "../RBAC/InviteUser";
-import "../styles/rbac.css";
+
 import RoleCreator from "../RBAC/RoleCreator";
 import RolesList from "../RBAC/RoleList";
 import PromoteDemote from "../RBAC/PromoteDemote";
+
+import "../styles/rbac.css"
 
 function RBAC() {
   const [activeTab, setActiveTab] = useState("invite");
   const [refreshKey, setRefreshKey] = useState(0); // Used to trigger re-fetches
 
-  // Callback when a role is created
   const handleRoleCreated = () => {
     setRefreshKey((prev) => prev + 1);
   };
@@ -23,7 +24,6 @@ function RBAC() {
         </p>
       </header>
 
-      {/* Tabs */}
       <nav className="rbac-tabs">
         <button
           className={`rbac-tab ${activeTab === "invite" ? "active" : ""}`}
@@ -47,7 +47,6 @@ function RBAC() {
         </button>
       </nav>
 
-      {/* Content */}
       <section className="rbac-content">
         {activeTab === "invite" && (
           <div className="rbac-section">
@@ -64,7 +63,6 @@ function RBAC() {
             </div>
 
             <div className="rbac-right">
-              {/* Pass callback to child */}
               <RoleCreator onCreated={handleRoleCreated} />
             </div>
           </div>

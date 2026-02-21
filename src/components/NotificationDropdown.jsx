@@ -2,8 +2,14 @@
 import { useEffect, useState, useRef } from "react";
 import { Bell, Check, X, Mail } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import { getMyNotifications, acceptInvitation, markAsRead } from "../api/notification";
-import "./NotificationDropdown.css" 
+import "./NotificationDropdown.css"
+import toast from "react-hot-toast";
+import {
+  getMyNotifications,
+  acceptInvitation,
+  markAsRead,
+} from "../api/notification";
+
 function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -42,27 +48,27 @@ function NotificationDropdown() {
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
-    // Optional: Mark all as read when opening? 
+    // Optional: Mark all as read when opening?
     // Usually better to mark individual ones or have a "Mark all read" button.
   };
 
   const handleAccept = async (notification) => {
     try {
       // 1. Get token from the JSONB data field
-      const token = notification.data?.token; 
+      const token = notification.data?.token;
       if (!token) {
-        alert("Invalid invitation: missing token");
+        toast.error("Invalid invitation: missing token");
         return;
       }
 
       // 2. Call API
       await acceptInvitation(token);
-      alert("Invitation accepted! Switching workspace...");
-      
+      toast.success("Invitation accepted! Switching workspace...");
+
       // 3. Refresh to update UI/Workspace
-      window.location.reload(); 
+      setTimeout(() => window.location.reload(), 1000);
     } catch (err) {
-      alert(err.response?.data?.error || "Failed to accept invitation");
+      toast.error(err.response?.data?.error || "Failed to accept invitation");
     }
   };
 
@@ -71,7 +77,9 @@ function NotificationDropdown() {
       {/* Icon Trigger */}
       <button className="notification-btn" onClick={handleToggle}>
         <Bell size={20} color="#4b5563" />
-        {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
+        {unreadCount > 0 && (
+          <span className="notification-badge">{unreadCount}</span>
+        )}
       </button>
 
       {/* Dropdown Menu */}
@@ -86,25 +94,30 @@ function NotificationDropdown() {
               <p className="notif-empty">No notifications yet</p>
             ) : (
               notifications.map((notif) => (
-                <div key={notif.id} className={`notif-item ${!notif.is_read ? "unread" : ""}`}>
+                <div
+                  key={notif.id}
+                  className={`notif-item ${!notif.is_read ? "unread" : ""}`}
+                >
                   <div className="notif-icon-area">
                     <div className="notif-icon-bg">
-                        <Mail size={16} />
+                      <Mail size={16} />
                     </div>
                   </div>
-                  
+
                   <div className="notif-content">
                     <p className="notif-title">{notif.title}</p>
                     <p className="notif-message">{notif.message}</p>
                     <span className="notif-time">
-                      {formatDistanceToNow(new Date(notif.created_at), { addSuffix: true })}
+                      {formatDistanceToNow(new Date(notif.created_at), {
+                        addSuffix: true,
+                      })}
                     </span>
 
                     {/* Action Buttons for Invitations */}
                     {notif.type === "invitation" && (
                       <div className="notif-actions">
-                        <button 
-                          className="btn-accept" 
+                        <button
+                          className="btn-accept"
                           onClick={() => handleAccept(notif)}
                         >
                           <Check size={14} /> Accept

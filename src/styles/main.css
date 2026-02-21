@@ -1,0 +1,94 @@
+/* src/styles/main.css */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  /* --- 1. The "Void" Palette (Cinematic Dark) --- */
+  --bg-deep: #030303;
+  --bg-subtle: #0a0a0a;
+  --bg-glass: rgba(20, 20, 20, 0.6);
+
+  /* --- 2. The "Titanium" Accent (Premium & Sharp) --- */
+  --accent-primary: #d4d4d8; /* Zinc-300: Cold, expensive metal */
+  --accent-glow: rgba(255, 255, 255, 0.15);
+
+  /* --- 3. Text Hierarchy --- */
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+
+  /* --- 4. The "Light" Borders (Crucial for Premium Feel) --- */
+  /* We don't use solid lines. We use gradients. */
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-shine: rgba(255, 255, 255, 0.2);
+
+  /* --- 5. Physics --- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --font-sans: "Inter", -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --sidebar-width: 260px;
+}
+
+/* --- Global Reset --- */
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+
+  /* --- THE PREMIUM TEXTURE --- */
+  /* This creates a subtle "film grain" that stops it looking flat */
+  background-image:
+    radial-gradient(circle at 50% 0%, #1c1c1c 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  letter-spacing: -0.02em; /* Tight headers = Expensive look */
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+
+
+/* --- APPEND TO src/styles/main.css --- */
+
+/* The "Stealth" Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-glass);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Firefox Support */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-glass) var(--bg-deep);
+}
