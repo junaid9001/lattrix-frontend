@@ -6,7 +6,7 @@ import SelectWorkspace from "../auth/SelectWorkspace";
 import ProtectedRoute from "./ProtectedRoutes";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import Dashboard from "../pages/Dashboard";
-import RBAC from "../pages/RBAC"
+import RBAC from "../pages/RBAC";
 import ApiGroups from "../pages/ApiGroups";
 import GroupDetails from "../pages/GroupDetails";
 import Notifications from "../pages/notifications";
